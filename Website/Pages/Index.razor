@@ -1,0 +1,47 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject HttpClient Http
+@inject IAccessTokenProvider AccessTokenProvider
+
+@if (_amount == null)
+{
+    <h2>Log in to see your bank account</h2>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Amount on your bank account</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@_amount</td>
+        </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    private string _amount = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var accessTokenResult = await AccessTokenProvider.RequestAccessToken();
+
+            if (accessTokenResult != null && accessTokenResult.TryGetToken(out var accessToken))
+            {
+                Http.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken.Value);
+                _amount = await Http.GetStringAsync("http://localhost:5000/AccountOwner");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+}

@@ -4,14 +4,16 @@ using BankApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BankApi.Migrations
 {
     [DbContext(typeof(Database.DatabaseContext))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20210226204158_InsertData")]
+    partial class InsertData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace BankApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BankApi.AccountStatementModel", b =>
+            modelBuilder.Entity("BankApi.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,20 +33,16 @@ namespace BankApi.Migrations
                     b.Property<string>("Owner")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("Timestamp")
-                        .HasColumnType("datetimeoffset");
-
                     b.HasKey("Id");
 
-                    b.ToTable("AccountStatements");
+                    b.ToTable("Accounts");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0d700d0c-ce7f-4f37-9e74-e3776a214a45"),
+                            Id = new Guid("bc117f5a-da78-4e12-9873-9cd6c616d5f9"),
                             Amount = 4200,
-                            Owner = "account-owner@andersmarchsteiner.onmicrosoft.com",
-                            Timestamp = new DateTimeOffset(new DateTime(2021, 3, 3, 9, 9, 19, 489, DateTimeKind.Unspecified).AddTicks(172), new TimeSpan(0, 1, 0, 0, 0))
+                            Owner = "account-owner@andersmarchsteiner.onmicrosoft.com"
                         });
                 });
 #pragma warning restore 612, 618

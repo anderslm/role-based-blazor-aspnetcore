@@ -1,0 +1,44 @@
+﻿@page "/Withdraw"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject HttpClient Http
+@inject IAccessTokenProvider AccessTokenProvider
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Withdraw</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><input type="text" @bind="@Amount" placeholder="Amount" /> <button @onclick="@Click">Make withdrawal</button> </td>
+    </tr>
+    </tbody>
+</table>
+
+@code {
+    private string Amount { get; set; }
+    
+    private Task Click()
+    {
+        return Http.PostAsync("http://localhost:5000/Bank/Withdraw/" + Amount, null);
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var accessTokenResult = await AccessTokenProvider.RequestAccessToken();
+
+            if (accessTokenResult != null && accessTokenResult.TryGetToken(out var accessToken))
+            {
+                Http.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken.Value);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+}

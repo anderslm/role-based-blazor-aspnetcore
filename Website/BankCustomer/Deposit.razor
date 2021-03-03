@@ -22,7 +22,7 @@
     
     private Task Click()
     {
-        return Http.PostAsync("http://localhost:5000/Bank/Deposit/" + Amount, null);
+        return Http.PostAsync("http://localhost:5000/BankCustomer/Deposit/" + Amount, null);
     }
     
     protected override async Task OnInitializedAsync()

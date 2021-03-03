@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApi.Database
+namespace BankApi.EntityFramework
 {
-    public class DatabaseContext : DbContext
+    public class Database : DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        public Database(DbContextOptions<Database> options) : base(options)
         {
-
+            
         }
-
+        
         public DbSet<AccountStatementModel> AccountStatements => Set<AccountStatementModel>();
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountStatementModel>().HasData(

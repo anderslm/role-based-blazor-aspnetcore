@@ -1,4 +1,6 @@
-using BankApi.Database;
+using BankApi.AccountOwner;
+using BankApi.BankCustomer;
+using BankApi.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,7 +28,9 @@ namespace BankApi
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
-            services.AddDbContext<DatabaseContext>(builder => builder.UseSqlServer(Configuration["ConnectionString"]));
+            services.AddScoped<BankCustomerDbContext>();
+            services.AddScoped<AccountOwnerDbContext>();
+            services.AddDbContext<Database>(builder => builder.UseSqlServer(Configuration["ConnectionString"]));
             
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "BankApi", Version = "v1"}); });

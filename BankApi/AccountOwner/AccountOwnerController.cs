@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Security.Principal;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bank;
-using BankApi.Database;
+using BankApi.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankApi.Controllers
+namespace BankApi.AccountOwner
 {
-    [Authorize(Roles = "AccountOwner,BankCustomer")]
+    [Authorize(Roles = "AccountOwner")]
     [ApiController]
     [Route("[controller]")]
-    public class BankController : ControllerBase
+    public class AccountOwnerController : ControllerBase
     {
-        private readonly DatabaseContext _database;
+        private readonly AccountOwnerDbContext _database;
 
-        public BankController(DatabaseContext database)
+        public AccountOwnerController(AccountOwnerDbContext database)
         {
             _database = database;
         }
-
+        
         [HttpGet]
         public List<Statement> Get()
         {
@@ -37,16 +36,6 @@ namespace BankApi.Controllers
             await _database
                 .AccountStatements
                 .AddAsync(new AccountStatementModel(User.Identity.Name, DateTimeOffset.Now, amount * -1));
-
-            await _database.SaveChangesAsync();
-        }
-
-        [HttpPost("Deposit/{Amount}")]
-        public async Task Deposit(int amount)
-        {
-            await _database
-                .AccountStatements
-                .AddAsync(new AccountStatementModel(User.Identity.Name, DateTimeOffset.Now, amount));
 
             await _database.SaveChangesAsync();
         }

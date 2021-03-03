@@ -46,7 +46,7 @@ else
             if (accessTokenResult != null && accessTokenResult.TryGetToken(out var accessToken))
             {
                 Http.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken.Value);
-                var statements = await Http.GetFromJsonAsync<List<Statement>>("http://localhost:5000/Bank") ?? new List<Statement>();
+                var statements = await Http.GetFromJsonAsync<List<Statement>>("http://localhost:5000/AccountOwner") ?? new List<Statement>();
                 _account = new(() => DateTimeOffset.Now, statements);
             }
         }

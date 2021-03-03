@@ -1,12 +1,9 @@
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Website
 {
@@ -27,6 +24,9 @@ namespace Website
                 options.ProviderOptions.DefaultAccessTokenScopes.Add("api://0bc1357a-e507-44f0-9d96-94dda6ef48ec/Api");
             });
 
+            builder.Services.AddApiAuthorization()
+                .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
+            
             await builder.Build().RunAsync();
         }
     }

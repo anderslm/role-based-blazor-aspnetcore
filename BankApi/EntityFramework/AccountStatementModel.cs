@@ -1,6 +1,6 @@
 using System;
 
-namespace BankApi
+namespace BankApi.EntityFramework
 {
     public class AccountStatementModel
     {

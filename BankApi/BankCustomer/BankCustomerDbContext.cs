@@ -8,7 +8,7 @@ namespace BankApi.BankCustomer
     {
         private readonly Database _database;
 
-        public BankCustomerDbContext(Database database)
+        public BankCustomerDbContext(Database database, Bank.BankCustomer bankCustomer)
         {
             _database = database;
         }

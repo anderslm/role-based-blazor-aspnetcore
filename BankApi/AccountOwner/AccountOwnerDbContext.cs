@@ -8,7 +8,7 @@ namespace BankApi.AccountOwner
     {
         private readonly Database _database;
 
-        public AccountOwnerDbContext(Database database)
+        public AccountOwnerDbContext(Database database, Bank.AccountOwner accountOwner)
         {
             _database = database;
         }

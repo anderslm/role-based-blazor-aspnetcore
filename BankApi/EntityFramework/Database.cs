@@ -8,7 +8,7 @@ namespace BankApi.EntityFramework
     {
         public Database(DbContextOptions<Database> options) : base(options)
         {
-            
+            Database.EnsureCreated();
         }
         
         public DbSet<AccountStatementModel> AccountStatements => Set<AccountStatementModel>();

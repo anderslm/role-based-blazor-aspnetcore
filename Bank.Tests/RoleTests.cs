@@ -8,13 +8,13 @@ namespace Bank.Tests
         [Fact]
         public void CanCreateBankCustomerRole()
         {
-            Role.CreateFromString(BankCustomer.Name).Should().BeOfType<BankCustomer>();
+            Role.CreateFromString(BankCustomer.Name, "").Should().BeOfType<BankCustomer>();
         }
         
         [Fact]
         public void CanCreateAccountOwnerRole()
         {
-            Role.CreateFromString(AccountOwner.Name).Should().BeOfType<AccountOwner>();
+            Role.CreateFromString(AccountOwner.Name, "").Should().BeOfType<AccountOwner>();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace BankApi
             services.AddScoped<AccountOwnerDbContext>();
             services.AddScoped(sp => CreateRolesFromClaims(sp).Single(r => r is Bank.BankCustomer) as Bank.BankCustomer);
             services.AddScoped(sp => CreateRolesFromClaims(sp).Single(r => r is Bank.AccountOwner) as Bank.AccountOwner);
-            services.AddDbContext<Database>(builder => builder.UseSqlServer(Configuration["ConnectionString"]));
+            services.AddDbContext<Database>(builder => builder.UseInMemoryDatabase("AfterHours"));
             
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "BankApi", Version = "v1"}); });
@@ -47,11 +47,12 @@ namespace BankApi
         private static IEnumerable<Role> CreateRolesFromClaims(IServiceProvider sp)
         {
             var httpContextAccessor = sp.GetService<IHttpContextAccessor>();
-            var claims = httpContextAccessor?.HttpContext?.User.Claims ?? Enumerable.Empty<Claim>();
+            var user = httpContextAccessor?.HttpContext?.User;
+            var claims = user?.Claims ?? Enumerable.Empty<Claim>();
             return
                 claims
                     .Where(c => c.Type == ClaimTypes.Role)
-                    .Select(c => Role.CreateFromString(c.Value));
+                    .Select(c => Role.CreateFromString(c.Value, user?.Identity?.Name));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

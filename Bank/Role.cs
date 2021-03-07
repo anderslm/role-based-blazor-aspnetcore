@@ -1,4 +1,7 @@
 using System;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Bank.Tests")]
 
 namespace Bank
 {
@@ -23,13 +26,13 @@ namespace Bank
     {
         public const string Name = "BankCustomer";
 
-        public BankCustomer(string username) : base(username) {}
+        protected internal BankCustomer(string username) : base(username) {}
     }
 
     public class AccountOwner : Role
     {
         public const string Name = "AccountOwner";
 
-        public AccountOwner(string username) : base(username) {}
+        protected internal AccountOwner(string username) : base(username) {}
     }
 }

@@ -8,26 +8,19 @@ using Xunit;
 
 namespace Bank.Tests
 {
-    public class DatabaseAuthorizationTests : IAsyncLifetime
+    public class DatabaseAuthorizationTests
     {
-        private Database _database = 
+        private readonly Database _database = 
             new(new DbContextOptionsBuilder<Database>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options);
 
-        private string _username;
-        private AccountOwnerDbContext _context;
+        private string _username = "account-owner@andersmarchsteiner.onmicrosoft.com";
+        private readonly AccountOwnerDbContext _context;
 
-        public async Task InitializeAsync()
-        {
-            _username = "My username";
+        public DatabaseAuthorizationTests() => 
             _context = new AccountOwnerDbContext(_database, new AccountOwner(_username));
-            await _context.AccountStatements.AddAsync(new AccountStatementModel(_username, DateTimeOffset.Now, 0));
-            await _context.SaveChangesAsync();
-        }
-
-        public Task DisposeAsync() => Task.CompletedTask;
-
+        
         [Fact]
         public async Task CanDepositMoneyToMyAccount()
         {

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApi.AccountOwner
 {
-    [Authorize(Roles = "AccountOwner")]
+    [Authorize(Roles = Bank.AccountOwner.Name)]
     [ApiController]
     [Route("[controller]")]
     public class AccountOwnerController : ControllerBase

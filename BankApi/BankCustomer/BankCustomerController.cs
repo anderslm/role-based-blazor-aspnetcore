@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApi.BankCustomer
 {
-    [Authorize(Roles = "BankCustomer")]
+    [Authorize(Roles = Bank.BankCustomer.Name)]
     [ApiController]
     [Route("[controller]")]
     public class BankCustomerController : ControllerBase

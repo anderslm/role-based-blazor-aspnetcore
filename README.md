@@ -52,8 +52,8 @@ can do. Words like 'Pages', 'Controller' and 'EntityFramework' doesn't help us t
 of the application and it doesn't help us to secure the application either.
 As the application grows there will probably pop up new controllers in the 'Controller' directory,
 database models in the 'EntityFramework' directory and pages in the 'Pages' directory.
-This makes it more and more difficult to separate code into the roles that is authorized to use it.
-Our architecture should help us to understand the problem domain and help us to organize
+This makes it more and more difficult to separate code into the roles that is authorized to execute it.
+Our architecture should help us to understand the problem domain and help us to organize code
 into the roles of the application.
 
 #### With actors (roles)
@@ -104,3 +104,4 @@ and be able to call a method inside of it, what is it we want to protect?
 The business rules? Not really. If Darlene is able to calculate the amount on an account after a deposit it doesn't change
 anything. What we want to protect is if Darlene tries to calculate the amount on her own account after a deposit and save
 it to the database. We want to protect the persistence of state. In our case the 'DbContext'.
+

@@ -15,33 +15,31 @@ namespace Bank.Tests
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options);
 
-        private string _username = "account-owner@andersmarchsteiner.onmicrosoft.com";
-        private readonly AccountOwnerDbContext _context;
+        private string _accountOwnerName = "Some account owner";
 
-        public DatabaseAuthorizationTests() => 
-            _context = new AccountOwnerDbContext(_database, new AccountOwner(_username));
-        
         [Fact]
-        public async Task CanDepositMoneyToMyAccount()
+        public async Task AccountOwnerCanDepositMoneyToMyAccount()
         {
-            var account = await _context.AccountStatements.SingleAsync();
-            account.Amount = 100;
+            var context = new AccountOwnerDbContext(_database, new AccountOwner(_accountOwnerName));
 
-            var numberOfChanges = await _context.SaveChangesAsync();
+            await context.AccountStatements.AddAsync(new AccountStatementModel(_accountOwnerName, DateTimeOffset.Now, 10));
 
-            numberOfChanges.Should().Be(1);
+            await context.SaveChangesAsync();
+
+            (await context.AccountStatements.LastAsync()).Amount.Should().Be(10);
         }
 
         [Fact]
-        public async Task OthersCanNotWithdrawMoneyFromMyAccount()
+        public async Task OthersCannotWithdrawMoneyFromMyAccount()
         {
-            var username = "Another username";
-            var context = new AccountOwnerDbContext(_database, new AccountOwner(username));
+            var context = new AccountOwnerDbContext(_database, new AccountOwner("Another username"));
 
-            var account = await _context.AccountStatements.SingleAsync();
-            account.Amount -= 10;
+            await context.AccountStatements.AddAsync(new AccountStatementModel(_accountOwnerName, DateTimeOffset.Now, -10));
 
             await Assert.ThrowsAsync<Exception>(() => context.SaveChangesAsync());
         }
+        
+        // Implement that bank customers cannot make withdrawals
+        // Implement that bank customers can make deposits
     }
 }

@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\README.md">
+      <Content Include="../README.md">
         <Link>README.md</Link>
       </Content>
     </ItemGroup>
